@@ -1,0 +1,27 @@
+//
+//  DoExt_SM-Prefix.pch
+//  DoExt_SM
+//
+//  Created by yz on 15/4/9.
+//  Copyright (c) 2015年 DoExt. All rights reserved.
+//
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+#import "HuanXinUIDefine.h"
+#import "WCAlertView.h"
+//#import "TTGlobalUICommon.h"
+#import "UIViewController+HUD.h"
+//#import "UIViewController+DismissKeyboard.h"
+//#import "NSString+Valid.h"
+
+#import "EaseMob.h"
+
+
+#endif
