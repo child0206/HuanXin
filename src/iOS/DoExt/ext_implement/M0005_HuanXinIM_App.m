@@ -2,17 +2,21 @@
 //  M0005_HuanXinIM_App.m
 //  DoExt_SM
 //
-//  Created by yz on 15/4/13.
+//  Created by 刘吟 on 15/4/9.
 //  Copyright (c) 2015年 DoExt. All rights reserved.
 //
-#import <UIKit/UIKit.h>
+
 #import "M0005_HuanXinIM_App.h"
 #import "EaseMob.h"
+#import "doServiceContainer.h"
+#import "doIModuleExtManage.h"
 
 @implementation M0005_HuanXinIM_App
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[EaseMob sharedInstance] registerSDKWithAppKey:@"digitalchina#huanxindemo" apnsCertName:nil];
+    NSString *huanxinKey = [[doServiceContainer Instance].ModuleExtManage GetThirdAppKey:@"M0005_HuanXinIM.plist" :@"EASEMOB_APPKEY"];
+    [[EaseMob sharedInstance] registerSDKWithAppKey:huanxinKey apnsCertName:nil];
+    
     return YES;
 }
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -35,5 +39,4 @@
 {
     [[EaseMob sharedInstance] applicationWillTerminate:application];
 }
-
 @end
