@@ -40,7 +40,8 @@ public class ExpressionAdapter extends ArrayAdapter<String> implements DoIModule
 		ImageView imageView = (ImageView) convertView.findViewById(DoResourcesHelper.getIdentifier("iv_expression", "id", this));
 		
 		String filename = getItem(position);
-		int resId = getContext().getResources().getIdentifier(filename, "drawable", getContext().getPackageName());
+		//int resId = getContext().getResources().getIdentifier(filename, "drawable", getContext().getPackageName());
+		int resId = DoResourcesHelper.getIdentifier(filename, "drawable", this);
 		imageView.setImageResource(resId);
 		
 		return convertView;
