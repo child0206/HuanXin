@@ -11,7 +11,7 @@
 #import "doScriptEngineHelper.h"
 #import "doIScriptEngine.h"
 #import "doInvokeResult.h"
-#import "doJsonNode.h"
+#import "doJsonHelper.h"
 #import "EaseMob.h"
 #import "doIPage.h"
 #import "ChatViewController.h"
@@ -55,14 +55,14 @@
 - (void)enterChat:(NSArray *)parms
 {
     //自己的代码实现
-    doJsonNode *_dictParas = [parms objectAtIndex:0];
+    NSDictionary *_dictParas = [parms objectAtIndex:0];
     //js引擎
     self.scritEngine = [parms objectAtIndex:1];
     
     //自己的代码实现
     
-    NSString *userName = [_dictParas GetOneText:@"username" :@""];
-    //通过用户名得到聊天会话对象
+    NSString *userName = [doJsonHelper GetOneText:_dictParas :@"username" :@""];
+        //通过用户名得到聊天会话对象
     EMConversation *conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:userName isGroup:NO];
     NSString *chatter = conversation.chatter;
     //初始化聊天控制器
@@ -81,28 +81,28 @@
 //异步
 - (void)login:(NSArray *)parms
 {
-    doJsonNode *_dictParas = [parms objectAtIndex:0];
+    NSDictionary *_dictParas = [parms objectAtIndex:0];
     //自己的代码实现
     self.scritEngine = [parms objectAtIndex:1];
     self.callbackName = [parms objectAtIndex:2];
-    NSString * userName = [_dictParas GetOneText:@"username" :@""];
-    NSString * userPwd = [_dictParas GetOneText:@"password" :@""];
+    NSString * userName = [doJsonHelper GetOneText:_dictParas :@"username" :@""];
+    NSString * userPwd = [doJsonHelper GetOneText:_dictParas :@"password" :@""];
     [[EaseMob sharedInstance].chatManager addDelegate:self delegateQueue:nil];
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userName password:userPwd];
 }
 
 -(void)didLoginWithInfo:(NSDictionary *)loginInfo error:(EMError *)error
 {
-    doJsonNode *infoNode = [[doJsonNode alloc]init];
+    NSMutableDictionary *infoNode = [[NSMutableDictionary alloc]init];
     doInvokeResult *_invokeResult = [[doInvokeResult alloc] init:nil];
     if (!error && loginInfo)
     {
-        [infoNode SetOneText:@"state" :@"0"];
+        [infoNode setValue:@"0" forKey:@"state"];
     }
     else
     {
-        [infoNode SetOneText:@"state" :@"1"];
-        [infoNode SetOneText:@"message" :error.description];
+        [infoNode setValue:@"0" forKey:@"state"];
+        [infoNode setValue:error.description forKey:@"message"];
     }
     [_invokeResult SetResultNode:infoNode];
     [self.scritEngine Callback:self.callbackName :_invokeResult];
